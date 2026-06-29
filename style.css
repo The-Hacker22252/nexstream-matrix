@@ -1,0 +1,49 @@
+/* Hyper-Clean Cyberpunk Obsidian Configuration Matrix */
+:root {
+    --bg-deep: #030712;
+    --surface: rgba(15, 23, 42, 0.45);
+    --border-glow: rgba(29, 185, 84, 0.2);
+    --spotify-green: #1db954;
+    --cyber-cyan: #22d3ee;
+    --text-primary: #f8fafc;
+    --text-secondary: #64748b;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    background-color: var(--bg-deep); color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+    padding: 60px 20px; display: flex; align-items: center; justify-content: center; min-height: 100vh; overflow-x: hidden;
+}
+body::before {
+    content: ''; position: absolute; width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(29, 185, 84, 0.08) 0%, rgba(0,0,0,0) 70%);
+    top: 10%; left: 50%; transform: translateX(-50%); z-index: -1;
+}
+.main-container { width: 100%; max-width: 900px; }
+.app-header { text-align: center; margin-bottom: 40px; }
+.app-title {
+    font-size: 2.5rem; font-weight: 800; letter-spacing: -0.05em;
+    background: linear-gradient(135deg, var(--text-primary) 40%, var(--spotify-green) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.cyber-panel {
+    background: var(--surface); border: 1px solid rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 20px; padding: 30px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5); margin-bottom: 30px;
+}
+.panel-header { font-size: 0.9rem; font-weight: 700; margin-bottom: 20px; color: var(--spotify-green); text-transform: uppercase; letter-spacing: 0.05em; }
+.search-wrapper { display: flex; gap: 15px; margin-bottom: 10px; }
+.input-field { flex: 1; background-color: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 10px; padding: 16px; color: var(--text-primary); font-size: 16px; outline: none; }
+.input-field:focus { border-color: var(--spotify-green); }
+.action-btn { background: var(--text-primary); color: var(--bg-deep); border-radius: 10px; border: none; padding: 0 25px; font-weight: 700; cursor: pointer; font-size: 16px; }
+.action-btn:hover { background: var(--spotify-green); color: white; }
+.results-container { display: flex; gap: 15px; margin-top: 25px; flex-direction: column; }
+.track-card { display: flex; align-items: center; justify-content: space-between; background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.02); border-radius: 12px; padding: 15px; gap: 15px; transition: all 0.2s ease; }
+.track-card:hover { border-color: rgba(29, 185, 84, 0.3); background: rgba(29, 185, 84, 0.02); }
+.track-info-block { display: flex; align-items: center; gap: 15px; }
+.album-art { width: 64px; height: 64px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08); object-fit: cover; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
+.meta-details { display: flex; flex-direction: column; gap: 4px; }
+.track-title { font-size: 15px; font-weight: 700; color: var(--text-primary); }
+.track-artist { font-size: 13px; color: var(--text-secondary); }
+.dl-icon-btn { background: rgba(29, 185, 84, 0.1); border: 1px solid var(--spotify-green); border-radius: 8px; color: var(--spotify-green); padding: 10px 16px; font-size: 13px; font-weight: 700; cursor: pointer; text-decoration: none; text-align: center; min-width: 110px; }
+.dl-icon-btn:hover { background: var(--spotify-green); color: white; }
+.status-box { background-color: rgba(0, 0, 0, 0.4); padding: 15px; border-radius: 10px; font-family: monospace; font-size: 12px; border: 1px solid rgba(255, 255, 255, 0.03); color: var(--text-secondary); line-height: 1.5; word-break: break-all; }
