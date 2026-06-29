@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexStream // AI Studio Matrix</title>
+    <script src="https://jsdelivr.net"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="main-container">
+        <header class="app-header">
+            <h1 class="app-title">NexStream Studio // AI Alpha</h1>
+            <p class="app-subtitle">Transformer Core Dynamic Workspace</p>
+        </header>
+        
+        <div class="deck-wrapper">
+            <div class="cyber-panel">
+                <div class="panel-header">System Control Input</div>
+                <div class="input-group">
+                    <label>Select Transformer Engine Model Architecture:</label>
+                    <select id="ai-model" class="input-field" style="background-color: #030712;">
+                        <option value="meta-llama/Meta-Llama-3-8B-Instruct">Meta Llama 3 (ChatGPT Equivalent Core)</option>
+                        <option value="mistralai/Mistral-7B-Instruct-v0.3">Mistral 7B (Gemini Pro Equivalent Line)</option>
+                        <option value="Qwen/Qwen2.5-72B-Instruct">Qwen 2.5 72B (Maximum Density Reasoner)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Enter Query Parameter Prompt String:</label>
+                    <textarea id="user-prompt" class="input-field" placeholder="Ask your engine anything or input code assignments here..."></textarea>
+                </div>
+                <button class="action-btn" onclick="executeNeuralComputation()">🚀 IGNITE MODEL INFERENCE</button>
+            </div>
+            
+            <div class="cyber-panel">
+                <div class="panel-header">Real-Time Output Node Inspector</div>
+                <div id="status-deck" class="status-box">// Status: STANDBY.<br>Awaiting neural token entry parameters inside Control Center...</div>
+                <div id="ai-response-deck" class="response-container">Neural terminal state: INACTIVE. Submit query arrays...</div>
+                <div class="utility-row">
+                    <button class="copy-btn" id="clip-button" onclick="copyConsoleOutput()" style="display:none;">📋 COPY RESPONSE</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let rawResponseText = "";
+
+        async function executeNeuralComputation() {
+            const promptStr = document.getElementById("user-prompt").value.trim();
+            const selectedEngine = document.getElementById("ai-model").value;
+            const statusDeck = document.getElementById("status-deck");
+            const responseDeck = document.getElementById("ai-response-deck");
+            const clipBtn = document.getElementById("clip-button");
+            
+            clipBtn.style.display = "none";
+            if (!promptStr) {
+                statusDeck.style.color = "#ef4444";
+                statusDeck.innerHTML = "// STATUS: FAILED<br>Error: Input prompt string parameter is empty.";
+                return;
+            }
+            
+            statusDeck.style.color = "var(--cyber-cyan)";
+            statusDeck.innerHTML = "// STATUS: HANDSHAKING<br>Synchronizing requests via open neural inference endpoints...";
+            responseDeck.innerHTML = "Computing response token strings...";
+            
+            try {
+                const inferenceEndpoint = "https://huggingface.co" + selectedEngine;
+                let res = await fetch(inferenceEndpoint, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        inputs: promptStr,
+                        parameters: { max_new_tokens: 500, temperature: 0.7, return_full_text: false }
+                    })
+                });
+                let data = await res.json();
+                
+                if (res.ok && data) {
+                    statusDeck.style.color = "var(--cyber-green)";
+                    statusDeck.innerHTML = `// STATUS: SUCCESS_VERIFIED<br>Matrix calculations completed via loop node: ${selectedEngine}.`;
+                    
+                    if (Array.isArray(data) && data[0] && data[0].generated_text) {
+                        rawResponseText = data[0].generated_text.trim();
+                    } else if (data.generated_text) {
+                        rawResponseText = data.generated_text.trim();
+                    } else {
+                        rawResponseText = JSON.stringify(data);
+                    }
+                    
+                    responseDeck.innerHTML = marked.parse(rawResponseText);
+                    clipBtn.style.display = "block";
+                } else {
+                    if (data.estimated_time) {
+                        statusDeck.style.color = "#c084fc";
+                        statusDeck.innerHTML = `// STATUS: COLD_START_DETECTED<br>Model node is spinning up from sleep mode (~${Math.round(data.estimated_time)}s). Wait 10 seconds and re-click button.`;
+                        responseDeck.innerHTML = "Server cluster wake sequence initiated...";
+                    } else {
+                        statusDeck.style.color = "#ef4444";
+                        statusDeck.innerHTML = `// STATUS: PARSING_FAULT<br>Error: Endpoint gateway rejected computing array. Status: ${res.status}`;
+                        responseDeck.innerHTML = "Transaction terminated by background server configurations.";
+                    }
+                }
+            } catch (err) {
+                statusDeck.style.color = "#ef4444";
+                statusDeck.innerHTML = "// STATUS: TIMEOUT_EXCEPTION<br>Connection lost or request rejected by network firewall blocks. Re-click button to retry.";
+                responseDeck.innerHTML = "Inference connection link drops.";
+            }
+        }
+
+        function copyConsoleOutput() {
+            const clipBtn = document.getElementById("clip-button");
+            navigator.clipboard.writeText(rawResponseText).then(() => {
+                clipBtn.innerHTML = "✅ COPIED!";
+                clipBtn.style.borderColor = "var(--cyber-green)";
+                clipBtn.style.color = "var(--cyber-green)";
+                setTimeout(() => {
+                    clipBtn.innerHTML = "📋 COPY RESPONSE";
+                    clipBtn.style.borderColor = "rgba(56, 189, 248, 0.2)";
+                    clipBtn.style.color = "var(--cyber-blue)";
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
